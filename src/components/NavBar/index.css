@@ -1,0 +1,26 @@
+.navEle {
+  background-color: #9796f0;
+  display: flex;
+  height: 70px;
+  font-weight: bold;
+  color: white;
+}
+.logoCon {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  padding-left: 34px;
+}
+.aspect {
+  width: 8%;
+}
+.scoreCon {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 84px;
+}
+.paraa {
+  margin-right: 15px;
+}
