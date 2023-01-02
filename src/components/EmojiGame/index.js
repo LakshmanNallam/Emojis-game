@@ -1,16 +1,3 @@
-/* 
-Quick Tip 
-
-- Use the below function in the EmojiGame Component to shuffle the emojisList every time when an emoji is clicked.
-
-const shuffledEmojisList = () => {
-  const {emojisList} = this.props
-  return emojisList.sort(() => Math.random() - 0.5)
-}
-
-*/
-
-// Write your code here.
 import {Component} from 'react'
 import NavBar from '../NavBar/index'
 import EmojiCard from '../EmojiCard'
@@ -22,20 +9,38 @@ class EmojiGame extends Component {
 
   clickedImage = id => {
     const {array, score, topScore} = this.state
-    if (array.includes(id)) {
-      if (topScore < score) {
+    if (array.includes(id) || score === 11) {
+      if (score === 11) {
+        if (array.includes(id)) {
+          console.log('endhuku vachoindhu')
+          this.setState({
+            isGameOver: true,
+            array: [],
+            islose: topScore >= score,
+            topScore: score,
+          })
+        } else {
+          console.log('vachindhi', score + 1, score + 1)
+          const finalScore = score + 1
+          console.log(topScore)
+          this.setState({
+            isGameOver: true,
+            array: [],
+            islose: false,
+            score: score + 1,
+            topScore: score + 1,
+          })
+        }
+      } else {
         this.setState({
           isGameOver: true,
-          topScore: score,
           array: [],
-          islose: false,
+          islose: topScore >= score,
+          topScore: topScore <= score ? score : topScore,
         })
-      } else {
-        this.setState({isGameOver: true, array: [], islose: true})
       }
     } else {
       this.setState({array: [...array, id], score: score + 1})
-      console.log('No')
     }
   }
 
@@ -50,15 +55,20 @@ class EmojiGame extends Component {
 
   render() {
     const emojisList = this.shuffledEmojisList()
-    const {array, isGameOver, score, topScore, islose} = this.state
-    console.log(array, score)
+    const {isGameOver, score, topScore, islose} = this.state
+    console.log(topScore)
     return (
       <div className="mainDiv">
         <NavBar score={score} topScore={topScore} />
         <div className="LowerCon">
           <ul className="CardCon">
             {isGameOver ? (
-              <WinOrLose con={islose} playAgin={this.playAgin} />
+              <WinOrLose
+                con={islose}
+                playAgin={this.playAgin}
+                score={score}
+                topScore={topScore}
+              />
             ) : (
               emojisList.map(eachItem => (
                 <EmojiCard
@@ -76,3 +86,4 @@ class EmojiGame extends Component {
 }
 
 export default EmojiGame
+
