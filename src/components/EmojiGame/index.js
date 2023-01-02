@@ -14,6 +14,7 @@ const shuffledEmojisList = () => {
 import {Component} from 'react'
 import NavBar from '../NavBar/index'
 import EmojiCard from '../EmojiCard'
+import WinOrLose from '../WinOrLoseCard'
 import './index.css'
 
 class EmojiGame extends Component {
@@ -47,21 +48,6 @@ class EmojiGame extends Component {
     return emojisList.sort(() => Math.random() - 0.5)
   }
 
-  winOrLoseFun = con =>
-    con ? (
-      <>
-        <p>LOst</p>
-        <button type="button" onClick={this.playAgin}>
-          Play Again
-        </button>
-      </>
-    ) : (
-      <>
-        <p>Win</p>
-        <button onClick={this.playAgin}>Play Again</button>
-      </>
-    )
-
   render() {
     const emojisList = this.shuffledEmojisList()
     const {array, isGameOver, score, topScore, islose} = this.state
@@ -71,15 +57,17 @@ class EmojiGame extends Component {
         <NavBar score={score} topScore={topScore} />
         <div className="LowerCon">
           <ul className="CardCon">
-            {isGameOver
-              ? this.winOrLoseFun(islose)
-              : emojisList.map(eachItem => (
-                  <EmojiCard
-                    eachItem={eachItem}
-                    key={eachItem.id}
-                    clickedImage={this.clickedImage}
-                  />
-                ))}
+            {isGameOver ? (
+              <WinOrLose con={islose} playAgin={this.playAgin} />
+            ) : (
+              emojisList.map(eachItem => (
+                <EmojiCard
+                  eachItem={eachItem}
+                  key={eachItem.id}
+                  clickedImage={this.clickedImage}
+                />
+              ))
+            )}
           </ul>
         </div>
       </div>
